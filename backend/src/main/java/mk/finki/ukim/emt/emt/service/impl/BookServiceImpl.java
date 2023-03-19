@@ -7,6 +7,7 @@ import mk.finki.ukim.emt.emt.model.dto.BookDto;
 import mk.finki.ukim.emt.emt.model.enumerations.BookCategory;
 import mk.finki.ukim.emt.emt.model.exceptions.AuthorDoesNotExistException;
 import mk.finki.ukim.emt.emt.model.exceptions.BookDoesNotExistException;
+import mk.finki.ukim.emt.emt.model.exceptions.NoBooksAvailable;
 import mk.finki.ukim.emt.emt.repository.BookRepository;
 import mk.finki.ukim.emt.emt.service.AuthorService;
 import mk.finki.ukim.emt.emt.service.BookService;
@@ -82,6 +83,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public void rentBook(Long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow(BookDoesNotExistException::new);
+        if (book.getAvailableCopies() == 0)
+        {
+            throw new NoBooksAvailable();
+        }
         book.setAvailableCopies(book.getAvailableCopies() - 1);
         bookRepository.save(book);
     }
