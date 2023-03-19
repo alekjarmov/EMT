@@ -3,6 +3,7 @@ package mk.finki.ukim.emt.emt.service.impl;
 import jakarta.transaction.Transactional;
 import mk.finki.ukim.emt.emt.model.Author;
 import mk.finki.ukim.emt.emt.model.Book;
+import mk.finki.ukim.emt.emt.model.dto.BookDto;
 import mk.finki.ukim.emt.emt.model.enumerations.BookCategory;
 import mk.finki.ukim.emt.emt.model.exceptions.AuthorDoesNotExistException;
 import mk.finki.ukim.emt.emt.model.exceptions.BookDoesNotExistException;
@@ -33,16 +34,38 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book save(String name, String category, Long authorId, Integer remainingCopies, Book book) {
-        if (book == null) {
-            book = new Book();
-        }
-        Author author = authorService.findById(authorId).orElseThrow(AuthorDoesNotExistException::new);
-        book.setName(name);
-        book.setCategory(BookCategory.valueOf(category));
-        book.setAvailableCopies(remainingCopies);
+    public Book save(BookDto bookDto) { // used for adding a new book
+        Book book = this.dtoToBook(bookDto);
+        return this.bookRepository.save(book);
+    }
+
+    @Override
+    @Transactional
+    public Book save(BookDto bookDto, Long id) { //used for editing a book
+        Author author = authorService.findById(bookDto.getAuthorId()).orElseThrow(AuthorDoesNotExistException::new);
+        Book book = bookRepository.findById(id).orElseThrow(BookDoesNotExistException::new);
+        book.setName(bookDto.getName());
+        book.setCategory(BookCategory.valueOf(bookDto.getCategory()));
+        book.setAvailableCopies(bookDto.getAvailableCopies());
         book.setAuthor(author);
         return bookRepository.save(book);
+    }
+
+
+    @Override
+    public Book save(Book book) {
+        Long id = book.getId();
+        if (id == null)
+        {
+            return bookRepository.save(book); //adding a new book here
+        }
+        // if the book already exists, we need to update it
+        Book editBook = bookRepository.findById(id).orElseThrow(BookDoesNotExistException::new);
+        editBook.setName(book.getName());
+        editBook.setCategory(book.getCategory());
+        editBook.setAvailableCopies(book.getAvailableCopies());
+        editBook.setAuthor(book.getAuthor());
+        return bookRepository.save(editBook);
     }
 
 
@@ -62,4 +85,13 @@ public class BookServiceImpl implements BookService {
         book.setAvailableCopies(book.getAvailableCopies() - 1);
         bookRepository.save(book);
     }
+
+    @Override
+    public Book dtoToBook(BookDto bookDto) {
+        Author author = authorService.findById(bookDto.getAuthorId()).orElseThrow(AuthorDoesNotExistException::new);
+        return new Book(null, bookDto.getName(), BookCategory.valueOf(bookDto.getCategory()),
+                author, bookDto.getAvailableCopies());
+    }
+
+
 }
