@@ -13,8 +13,7 @@ export default function Book({
 }) {
   const handleDeleteClick = () => {
     const id: number = book.id!;
-    deleteBook(id);
-    refreshDeleteState(book);
+    deleteBook(id).then(()=>refreshDeleteState(book));
   };
 
   const handleRentClick = () => {

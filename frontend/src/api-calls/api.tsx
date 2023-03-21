@@ -5,7 +5,18 @@ export async function getBooks(): Promise<Book[]> {
   // console.log(response.data);
   return response.data;
 }
-
+export async function getBookPage(pageData: PageData): Promise<PageResponse<Book>> {
+  const response = await instance.get("/books/list-by-page", {params: pageData});
+  const responseData = response.data;
+  let content: PageResponse<Book> = {
+    content: responseData.content,
+    first: responseData.first,
+    last: responseData.last,
+    totalPages: responseData.totalPages,
+  };
+  console.log (content);
+  return content;
+}
 export async function getBookById(id: number): Promise<Book>  {
   const response = await instance.get(`/books/${id}`);
   // console.log(response.data);
@@ -56,4 +67,5 @@ export async function getBookCategories(): Promise<string[]> {
   // console.log(data);
   return data;
 }
+
 

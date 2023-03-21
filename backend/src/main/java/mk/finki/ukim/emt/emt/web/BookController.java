@@ -3,6 +3,8 @@ package mk.finki.ukim.emt.emt.web;
 import mk.finki.ukim.emt.emt.model.Book;
 import mk.finki.ukim.emt.emt.model.dto.BookDto;
 import mk.finki.ukim.emt.emt.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,12 @@ public class BookController {
     @GetMapping("/list")
     public List<Book> listBooks() {
         return bookService.findAll();
+    }
+
+    @GetMapping("/list-by-page")
+    public Page<Book> listBooksByPage(Pageable pageInfo) {
+        System.out.println(pageInfo);
+        return bookService.findAllByPage(pageInfo);
     }
 
     @PostMapping("/add")

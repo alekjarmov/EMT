@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export function AuthorDropDown({ authors, defaultAuthor }: { authors: Author[], defaultAuthor?: number}) {
     const [defaultId, setDefaultId] = useState<number>(defaultAuthor ? defaultAuthor : 0);
     useEffect(() => {
-        setDefaultId(defaultAuthor ? defaultAuthor : 0);
+        setDefaultId(defaultAuthor ? defaultAuthor : 0); console.log("refresh");
     }, [defaultAuthor]);
   return (
     <select name="author" className="form-control" value={defaultId} onChange={(e) => {setDefaultId(parseInt(e.target.value)) } }>

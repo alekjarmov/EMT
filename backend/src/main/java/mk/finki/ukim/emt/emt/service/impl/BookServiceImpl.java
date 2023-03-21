@@ -11,6 +11,8 @@ import mk.finki.ukim.emt.emt.model.exceptions.NoBooksAvailable;
 import mk.finki.ukim.emt.emt.repository.BookRepository;
 import mk.finki.ukim.emt.emt.service.AuthorService;
 import mk.finki.ukim.emt.emt.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -96,6 +98,11 @@ public class BookServiceImpl implements BookService {
         Author author = authorService.findById(bookDto.getAuthorId()).orElseThrow(AuthorDoesNotExistException::new);
         return new Book(null, bookDto.getName(), BookCategory.valueOf(bookDto.getCategory()),
                 author, bookDto.getAvailableCopies());
+    }
+
+    @Override
+    public Page<Book> findAllByPage(Pageable pageInfo) {
+        return bookRepository.findAll(pageInfo);
     }
 
 

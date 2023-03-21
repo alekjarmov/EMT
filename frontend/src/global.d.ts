@@ -26,6 +26,17 @@ declare global {
       authorId: number;
       availableCopies: number;
     }
+    type PageData = {
+      page: number;
+      size: number;
+      sort?: string | null;
+    }
+    type PageResponse<T> = {
+      content: T[];
+      last: boolean;
+      first: boolean;
+      totalPages: number;
+    }
   }
   
   export {};
