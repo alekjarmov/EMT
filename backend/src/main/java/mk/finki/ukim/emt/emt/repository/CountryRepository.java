@@ -1,4 +1,7 @@
 package mk.finki.ukim.emt.emt.repository;
 
-public interface CountryRepository {
+import mk.finki.ukim.emt.emt.model.Country;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CountryRepository extends JpaRepository<Country, Long> {
 }

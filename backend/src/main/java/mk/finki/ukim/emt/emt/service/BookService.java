@@ -9,11 +9,18 @@ import java.util.Optional;
 
 public interface BookService {
     public List<Book> findAll();
+
     public Book save(BookDto bookDto);
-    public Book save (BookDto bookDto, Long id);
+
+    public Book save(BookDto bookDto, Long id);
+
     public Book save(Book book);
+
     public Optional<Book> findById(Long id);
+
     public void deleteById(Long id);
+
     public void rentBook(Long bookId);
+
     public Book dtoToBook(BookDto bookDto);
 }
