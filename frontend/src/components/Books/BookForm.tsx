@@ -63,12 +63,8 @@ export default function BookForm() {
     event.preventDefault();
     const form = event.currentTarget;
     let formData: FormData = new FormData(form);
-    console.log(form);
-    console.log(FormData);
-    console.log(formData.get("name"));
-    const authorId = parseInt(formData.get("author") as string);
 
-    const author: Author = authors.find((author) => author.id === authorId)!;
+    const authorId = parseInt(formData.get("author") as string);
     const availableCopies = parseInt(formData.get("availableCopies") as string);
 
     const newBook: BookDto = {
