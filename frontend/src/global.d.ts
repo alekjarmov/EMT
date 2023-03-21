@@ -19,6 +19,13 @@ declare global {
       name: string;
       continent: string;
     };
+
+    type BookDto = {
+      name: string;
+      category: string;
+      authorId: number;
+      availableCopies: number;
+    }
   }
   
   export {};

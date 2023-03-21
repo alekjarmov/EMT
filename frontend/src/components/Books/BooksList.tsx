@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import Book from '../Book/Book';
+import Book from './Book';
 import { useEffect, useState } from "react";
 //this component is used to display all the books which we get from the api
 
-import { getBooks } from "../../../api-calls/api";
+import { getBooks } from "../../api-calls/api";
 
 export default function  BooksList(){
     const [books, setBooks] = useState<Book[]>([]);
@@ -14,6 +14,15 @@ export default function  BooksList(){
     //refresh the state after deleting a book
     const deleteBook = (bookOld: Book) => {
         setBooks(books.filter((book) => book.id !== bookOld.id));
+    };
+
+    const rentBook = (bookOld: Book) => {
+        setBooks(books.map((book)=>{
+            if(book.id === bookOld.id){
+                book.availableCopies--;
+            }
+            return book;
+        }));
     };
 
     return (
@@ -31,7 +40,7 @@ export default function  BooksList(){
                     </tr>
                     </thead>
                     <tbody>
-                     { books.map((book) => <Book book={book} refreshState={deleteBook}/>) }
+                     { books.map((book) => <Book key={book.id} book={book} refreshDeleteState={deleteBook} refreshRentState = {rentBook}/>) }
                     </tbody>
                 </table>
             </div>

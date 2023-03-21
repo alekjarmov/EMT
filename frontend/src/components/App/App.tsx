@@ -8,10 +8,12 @@ import NavBar from "../NavBar/NavBar";
 import { Route, Routes } from "react-router-dom";
 
 
-import BooksList from "../Books/BooksList/BooksList";
-
+import BooksList from "../Books/BooksList";
+import Categories from "../Categories/Categories";
+import BookForm from "../Books/BookForm";
 function App() {
   const [count, setCount] = useState(0);
+  const [books, setBooks] = useState([]);
 
   return (
     <>
@@ -20,6 +22,9 @@ function App() {
         <Routes>
           <Route path="/" element={<BooksList/>} />
           <Route path="/books" element={<BooksList/>} />
+          <Route path="/categories" element={<Categories/>} />
+          <Route path="/books/add" element={<BookForm/>} />
+          <Route path="/books/edit/:bookId" element={<BookForm/>} />
         </Routes>
       </div>
     </>

@@ -23,6 +23,9 @@ export default function NavBar() {
           <li>
             <Link to={"/books"} className="nav-link"> List books</Link>
           </li>
+          <li>
+            <Link to={"/categories"} className="nav-link"> Categories</Link>
+          </li>
         </ul>
       </div>
     </nav>
